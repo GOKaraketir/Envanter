@@ -11,14 +11,16 @@ const (
 	ERR_BARCODE_EXIST              string = "Barkod zaten mevcut"
 	ERR_NAME_EXIST_WITHOUT_BARCODE        = "Aynı ürün mevcut"
 	ERR_PROD_NOT_FOUND                    = "Ürün Bulunamadı"
+
+	NO_BARCODE = "0000000000000"
 )
 
 func Hello() {
 	fmt.Println("Hello")
 }
 
-func Initialize() (inventory Inventory, err error) {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+func Initialize(fileName string) (inventory Inventory, err error) {
+	db, err := gorm.Open(sqlite.Open(fileName), &gorm.Config{})
 	if err != nil {
 		return
 	}
@@ -32,17 +34,18 @@ func Initialize() (inventory Inventory, err error) {
 	return
 }
 
-func (this *Inventory) CreateProduct(barcode, name string, price Price, count int) (product Product, err error) {
+func (receiver *Inventory) CreateProduct(tag Tag, price Price, count int) (product Product, err error) {
 	err = nil
 
 	var products []Product
-	if barcode != "" {
-		this.Find(&products, "Barcode = ?", barcode)
+	if tag.Barcode != NO_BARCODE {
+		receiver.Find(&products, Product{Tag: tag})
 		if len(products) != 0 {
 			err = errors.New(ERR_BARCODE_EXIST)
+			return
 		}
 	} else {
-		this.Find(&products, "Barcode = ? AND Name = ?", barcode, name)
+		receiver.Find(&products, Product{Tag: tag})
 		if len(products) != 0 {
 			err = errors.New(ERR_NAME_EXIST_WITHOUT_BARCODE)
 			return
@@ -50,26 +53,48 @@ func (this *Inventory) CreateProduct(barcode, name string, price Price, count in
 	}
 
 	product = Product{
-		Barcode: barcode,
-		Name:    name,
-		Price:   price,
+		Tag:   tag,
+		Price: price,
 		Stock: &Stock{
-			Barcode: barcode,
-			Name:    name,
 			Product: &product,
 			Count:   count,
 		},
 	}
 
-	this.Create(&product)
+	receiver.Create(&product)
 
 	return
 }
 
-func (this *Inventory) GetProduct(barcode, name string) (product Product, err error) {
+func (receiver *Inventory) UpdateProduct(tag Tag, newProduct Product) (product Product, err error) {
+	err = nil
+
+	product, err = receiver.GetProduct(tag)
+	if err != nil {
+		return
+	}
+
+	newProduct.ID = product.ID
+
+	receiver.Save(&newProduct)
+
+	return
+}
+
+func (receiver *Inventory) DeleteProduct(tag Tag) (product Product, err error) {
+
+	product, err = receiver.GetProduct(tag)
+
+	receiver.Delete(&product)
+	receiver.Delete(&product.Stock)
+
+	return
+}
+
+func (receiver *Inventory) GetProduct(tag Tag) (product Product, err error) {
 	err = nil
 	var products []Product
-	this.Preload("Stock").Find(&products, "Barcode = ? AND Name = ? ", barcode, name)
+	receiver.Preload("Stock").Find(&products, Product{Tag: tag})
 	if len(products) == 0 {
 		err = errors.New(ERR_PROD_NOT_FOUND)
 		return
@@ -78,23 +103,44 @@ func (this *Inventory) GetProduct(barcode, name string) (product Product, err er
 	return
 }
 
-func IsSameProduct(product1, product2 Product) bool {
-	if product1.Barcode != product2.Barcode {
-		return false
-	} else if product1.Name != product2.Name {
-		return false
+func (receiver *Inventory) GetStock(tag Tag) (Stock, error) {
+
+	product, err := receiver.GetProduct(tag)
+	if err != nil {
+		return Stock{}, err
 	}
-	return true
+
+	return *product.Stock, nil
 }
 
-func (receiver *Inventory) DoneSell(sell *Sell) (err error) {
-	for _, entry := range sell.Entries {
-		product, err := receiver.GetProduct(entry.Product.Barcode, entry.Product.Name)
-		if err != nil {
-			return err
-		}
-		product.Stock.Count -= entry.Count
-		receiver.Save(&product.Stock)
+func (receiver *Inventory) UpdateStock(tag Tag, count int) (Stock, error) {
+
+	stock, err := receiver.GetStock(tag)
+	if err != nil {
+		return Stock{}, err
 	}
-	return nil
+
+	stock.Count = count
+
+	receiver.Save(&stock)
+
+	return stock, nil
+}
+
+func (receiver Inventory) AddToStock(tag Tag, count int) (Stock, error) {
+	stock, err := receiver.GetStock(tag)
+	if err != nil {
+		return Stock{}, err
+	}
+
+	updatedStock, err := receiver.UpdateStock(tag, stock.Count+count)
+	if err != nil {
+		return Stock{}, err
+	}
+
+	return updatedStock, nil
+}
+
+func (receiver Inventory) ReduceFromStock(tag Tag, count int) (Stock, error) {
+	return receiver.AddToStock(tag, -1*count)
 }

@@ -1,6 +1,7 @@
 package backend
 
 import (
+	"github.com/GOKaraketir/Envanter/backend/myDate"
 	"gorm.io/gorm"
 )
 
@@ -9,16 +10,35 @@ type Inventory struct {
 }
 type Price float64
 
+type Tag struct {
+	Barcode string
+	Name    string
+}
+
 type Product struct {
-	Barcode string `gorm:"primarykey;unique"`
-	Name    string `gorm:"primarykey"`
+	Tag     `gorm:"unique;"`
+	ID      int
 	Price   Price
-	Stock   *Stock `gorm:"ForeignKey:Barcode,Name;References:Barcode,Name"`
+	StockID int
+	Stock   *Stock
 }
 
 type Stock struct {
-	Barcode string   `gorm:"primarykey;unique"`
-	Name    string   `gorm:"primarykey"`
-	Product *Product `gorm:"ForeignKey:Barcode,Name;References:Barcode,Name"`
-	Count   int
+	ID        int
+	ProductID int
+	Product   *Product
+	Count     int
+}
+
+type SellEntry struct {
+	Tag
+	Price  Price
+	Count  int
+	SellID int
+}
+
+type Sell struct {
+	ID      int           `gorm:"PrimaryKey"`
+	Date    myDate.MyDate `gorm:"embedded"`
+	Entries []SellEntry
 }
