@@ -31,6 +31,7 @@ type Stock struct {
 }
 
 type SellEntry struct {
+	ID int
 	Tag
 	Price  Price
 	Count  int

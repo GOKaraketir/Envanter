@@ -53,7 +53,7 @@ package main
 //
 //	fmt.Println("Sum: ", getSell.Sum())
 //
-//	err = inventory.DoneSell(&getSell)
+//	err = inventory.CommitSell(&getSell)
 //	if err != nil {
 //		panic(err)
 //	}

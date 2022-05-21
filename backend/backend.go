@@ -5,14 +5,16 @@ import (
 	"fmt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 const (
 	ERR_BARCODE_EXIST              string = "Barkod zaten mevcut"
 	ERR_NAME_EXIST_WITHOUT_BARCODE        = "Aynı ürün mevcut"
 	ERR_PROD_NOT_FOUND                    = "Ürün Bulunamadı"
-
-	NO_BARCODE = "0000000000000"
+	ERR_SELL_NOT_FOUND                    = "Satış Bulunamadı"
+	ERR_SELL_ENTRY_NOT_FOUND              = "Satış Girdisi Bulunamadı"
+	NO_BARCODE                            = "0000000000000"
 )
 
 func Hello() {
@@ -66,7 +68,7 @@ func (receiver *Inventory) CreateProduct(tag Tag, price Price, count int) (produ
 	return
 }
 
-func (receiver *Inventory) UpdateProduct(tag Tag, newProduct Product) (product Product, err error) {
+func (receiver *Inventory) UpdateProduct(tag Tag, newProduct Product) (product *Product, err error) {
 	err = nil
 
 	product, err = receiver.GetProduct(tag)
@@ -78,29 +80,28 @@ func (receiver *Inventory) UpdateProduct(tag Tag, newProduct Product) (product P
 
 	receiver.Save(&newProduct)
 
-	return
+	return receiver.GetProduct(newProduct.Tag)
 }
 
-func (receiver *Inventory) DeleteProduct(tag Tag) (product Product, err error) {
+func (receiver *Inventory) DeleteProduct(tag Tag) (product *Product, err error) {
 
 	product, err = receiver.GetProduct(tag)
 
-	receiver.Delete(&product)
-	receiver.Delete(&product.Stock)
+	receiver.Delete(product)
+	receiver.Delete(product.Stock)
 
 	return
 }
 
-func (receiver *Inventory) GetProduct(tag Tag) (product Product, err error) {
-	err = nil
+func (receiver *Inventory) GetProduct(tag Tag) (*Product, error) {
 	var products []Product
-	receiver.Preload("Stock").Find(&products, Product{Tag: tag})
+	receiver.Preload(clause.Associations).Find(&products, Product{Tag: tag})
 	if len(products) == 0 {
-		err = errors.New(ERR_PROD_NOT_FOUND)
-		return
+		err := errors.New(ERR_PROD_NOT_FOUND)
+		return nil, err
 	}
-	product = products[0]
-	return
+	products[0].Stock.Product = &products[0]
+	return &products[0], nil
 }
 
 func (receiver *Inventory) GetStock(tag Tag) (Stock, error) {
