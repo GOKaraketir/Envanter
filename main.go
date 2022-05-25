@@ -1,5 +1,11 @@
 package main
 
+import "github.com/GOKaraketir/Envanter/program"
+
+func main() {
+	program.Run()
+}
+
 //func main() {
 //	backend.Hello()
 //
