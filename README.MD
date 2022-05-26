@@ -23,3 +23,5 @@
 ## Resimler
 ### Yeni ürün
 
+
+![yeniUrun](pictures/newProduct.png)
