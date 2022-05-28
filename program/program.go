@@ -4,23 +4,32 @@ import (
 	"github.com/GOKaraketir/Envanter/backend"
 	"github.com/therecipe/qt/widgets"
 	"os"
+	"path"
 )
 
 var Inventory backend.Inventory
 var err error
 
-const DBNAME = "database.db"
+const DBNAME = "invetoryDatabase.db"
 
 func Run() {
 	widgets.NewQApplication(len(os.Args), os.Args)
 
-	Inventory, err = backend.Initialize(DBNAME)
-
+	var dir, file string
+	dir, err = os.UserHomeDir()
 	if err != nil {
-		panic(err)
+		file = path.Join(dir, DBNAME)
+	} else {
+		file = path.Join(os.TempDir(), DBNAME)
 	}
 
-	productWindow := CreateAddProduct(nil)
+	Inventory, err = backend.Initialize(file)
+
+	if err != nil {
+		ShowInfo("Hata", err.Error())
+	}
+
+	productWindow := CreateMainPage(nil)
 
 	productWindow.Show()
 
