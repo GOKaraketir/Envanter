@@ -104,6 +104,11 @@ func (receiver *Inventory) GetProduct(tag Tag) (*Product, error) {
 	return &products[0], nil
 }
 
+func (receiver *Inventory) GetAllProducts() (products []Product) {
+	receiver.Preload(clause.Associations).Find(&products)
+	return
+}
+
 func (receiver *Inventory) GetStock(tag Tag) (Stock, error) {
 
 	product, err := receiver.GetProduct(tag)

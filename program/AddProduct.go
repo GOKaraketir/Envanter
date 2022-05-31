@@ -33,3 +33,9 @@ func CreateAddProduct(p widgets.QWidget_ITF) *ui.AddProduct {
 
 	return addProduct
 }
+
+func CreateDeleteProduct(tag backend.Tag, p widgets.QWidget_ITF) *ui.AddProduct {
+	deleteProduct := ui.NewAddProduct(p)
+
+	return deleteProduct
+}

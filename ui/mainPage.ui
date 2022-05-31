@@ -95,7 +95,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="listProducts">
        <property name="minimumSize">
         <size>
          <width>150</width>
@@ -103,7 +103,7 @@
         </size>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Ürün Listele</string>
        </property>
       </widget>
      </item>

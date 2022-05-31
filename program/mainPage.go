@@ -18,5 +18,14 @@ func CreateMainPage(p widgets.QWidget_ITF) *ui.MainPage {
 		})
 	})
 
+	mainPage.ListProducts.ConnectClicked(func(checked bool) {
+		mainPage.ListProducts.SetDisabled(true)
+		addProduct := CreateList(nil)
+		addProduct.Show()
+		addProduct.ConnectCloseEvent(func(event *gui.QCloseEvent) {
+			mainPage.ListProducts.SetDisabled(false)
+		})
+	})
+
 	return mainPage
 }
