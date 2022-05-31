@@ -107,9 +107,6 @@
        <property name="inputMethodHints">
         <set>Qt::ImhNone</set>
        </property>
-       <property name="inputMask">
-        <string>99999999999999999999</string>
-       </property>
        <property name="text">
         <string/>
        </property>

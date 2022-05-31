@@ -142,7 +142,6 @@ func (w *AddProduct) retranslateUi() {
 	w.Label_2.SetText(core.QCoreApplication_Translate("AddProduct", "\303\234r\303\274n Ad\304\261:", "", 0))
 	w.Label.SetText(core.QCoreApplication_Translate("AddProduct", "Barkod Numaras\304\261:", "", 0))
 	w.NoBarcodeCheckBox.SetText(core.QCoreApplication_Translate("AddProduct", "Barkodsuz \303\234r\303\274n", "", 0))
-	w.BarcodeLineEdit.SetInputMask(core.QCoreApplication_Translate("AddProduct", "99999999999999999999", "", 0))
 	w.BarcodeLineEdit.SetText("")
 	w.Label_4.SetText(core.QCoreApplication_Translate("AddProduct", "\303\234r\303\274n Fiyat\304\261:", "", 0))
 	w.PriceDoubleSpinBox.SetSuffix(core.QCoreApplication_Translate("AddProduct", "\342\202\272", "", 0))
