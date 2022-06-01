@@ -19,8 +19,8 @@ type MainPage struct {
 	AddProductPushButton    *widgets.QPushButton
 	RemoveProductPushButton *widgets.QPushButton
 	EditProductPushButton   *widgets.QPushButton
-	PushButton_5            *widgets.QPushButton
 	ListProducts            *widgets.QPushButton
+	PushButton_5            *widgets.QPushButton
 }
 
 func NewMainPage(p widgets.QWidget_ITF) *MainPage {
@@ -60,14 +60,14 @@ func (w *MainPage) setupUI() {
 	w.EditProductPushButton.SetObjectName("editProductPushButton")
 	w.EditProductPushButton.SetMinimumSize(core.NewQSize2(150, 75))
 	w.HorizontalLayout.QLayout.AddWidget(w.EditProductPushButton)
-	w.PushButton_5 = widgets.NewQPushButton(w)
-	w.PushButton_5.SetObjectName("pushButton_5")
-	w.PushButton_5.SetMinimumSize(core.NewQSize2(150, 75))
-	w.HorizontalLayout.QLayout.AddWidget(w.PushButton_5)
 	w.ListProducts = widgets.NewQPushButton(w)
 	w.ListProducts.SetObjectName("listProducts")
 	w.ListProducts.SetMinimumSize(core.NewQSize2(150, 75))
 	w.HorizontalLayout.QLayout.AddWidget(w.ListProducts)
+	w.PushButton_5 = widgets.NewQPushButton(w)
+	w.PushButton_5.SetObjectName("pushButton_5")
+	w.PushButton_5.SetMinimumSize(core.NewQSize2(150, 75))
+	w.HorizontalLayout.QLayout.AddWidget(w.PushButton_5)
 	w.VerticalLayout.AddLayout(w.HorizontalLayout, 0)
 	w.retranslateUi()
 	core.QMetaObject_ConnectSlotsByName(w)
@@ -79,7 +79,7 @@ func (w *MainPage) retranslateUi() {
 	w.AddProductPushButton.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n Ekle", "", 0))
 	w.RemoveProductPushButton.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n Sil", "", 0))
 	w.EditProductPushButton.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n D\303\274zenle", "", 0))
-	w.PushButton_5.SetText(core.QCoreApplication_Translate("MainPage", "PushButton", "", 0))
 	w.ListProducts.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n Listele", "", 0))
+	w.PushButton_5.SetText(core.QCoreApplication_Translate("MainPage", "PushButton", "", 0))
 
 }

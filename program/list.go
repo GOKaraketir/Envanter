@@ -11,6 +11,14 @@ func addRow(table *widgets.QTableWidget) {
 	table.InsertRow(table.RowCount())
 }
 
+const (
+	ID_COL = iota
+	BORCODE_COL
+	NAME_COL
+	PRICE_COL
+	COUNT_COL
+)
+
 var colNames = []string{
 	"ID",
 	"Barkod",
@@ -43,24 +51,48 @@ func setLabels(table *widgets.QTableWidget) {
 	}
 }
 
-//func addColumn(table *widgets.QTableWidget) {
-//
-//	fmt.Println("inserted: ", i+1)
-//}
-
-func CreateList(p widgets.QWidget_ITF) *ui.Form {
-	asd := ui.NewForm(p)
-
-	setLabels(asd.TableWidget)
-
+func refreshProductLıst(table *widgets.QTableWidget) {
+	table.SetRowCount(0)
 	products := Inventory.GetAllProducts()
 	for row, product := range products {
-		addRow(asd.TableWidget)
+		addRow(table)
 		rowElem := createRow(product)
 		for col, item := range rowElem {
-			asd.TableWidget.SetItem(row, col, item)
+			table.SetItem(row, col, item)
 		}
 	}
+}
 
-	return asd
+func CreateList(p widgets.QWidget_ITF) *ui.List {
+	listView := ui.NewList(p)
+
+	setLabels(listView.TableWidget)
+
+	refreshProductLıst(listView.TableWidget)
+
+	listView.DeleteProductButtton.ConnectClicked(func(checked bool) {
+		rows := listView.TableWidget.SelectionModel().SelectedRows(0)
+		if len(rows) == 0 {
+			ShowInfo("Hata", "Seçili Ürün Yok")
+			return
+		} else {
+			for _, rowItem := range rows {
+				row := rowItem.Row()
+				barcode := listView.TableWidget.Item(row, BORCODE_COL).Text()
+				name := listView.TableWidget.Item(row, NAME_COL).Text()
+				_, err = Inventory.DeleteProduct(backend.Tag{
+					Barcode: barcode,
+					Name:    name,
+				})
+				if err != nil {
+					ShowInfo("Hata", barcode+" "+name+" "+err.Error())
+				} else {
+					ShowInfo("Ürün Silindi", barcode+" "+name)
+				}
+			}
+			refreshProductLıst(listView.TableWidget)
+		}
+	})
+
+	return listView
 }
