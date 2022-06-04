@@ -138,7 +138,7 @@ func (w *AddProduct) setupUI() {
 
 }
 func (w *AddProduct) retranslateUi() {
-	w.SetWindowTitle(core.QCoreApplication_Translate("AddProduct", "\303\234r\303\274n Ekle", "", 0))
+	w.SetWindowTitle(core.QCoreApplication_Translate("AddProduct", "qqq", "", 0))
 	w.Label_2.SetText(core.QCoreApplication_Translate("AddProduct", "\303\234r\303\274n Ad\304\261:", "", 0))
 	w.Label.SetText(core.QCoreApplication_Translate("AddProduct", "Barkod Numaras\304\261:", "", 0))
 	w.NoBarcodeCheckBox.SetText(core.QCoreApplication_Translate("AddProduct", "Barkodsuz \303\234r\303\274n", "", 0))
@@ -146,6 +146,6 @@ func (w *AddProduct) retranslateUi() {
 	w.Label_4.SetText(core.QCoreApplication_Translate("AddProduct", "\303\234r\303\274n Fiyat\304\261:", "", 0))
 	w.PriceDoubleSpinBox.SetSuffix(core.QCoreApplication_Translate("AddProduct", "\342\202\272", "", 0))
 	w.Label_3.SetText(core.QCoreApplication_Translate("AddProduct", "\303\234r\303\274n Adedi:", "", 0))
-	w.AddProductButton.SetText(core.QCoreApplication_Translate("AddProduct", "\303\234r\303\274n Ekle", "", 0))
+	w.AddProductButton.SetText(core.QCoreApplication_Translate("AddProduct", "qqq", "", 0))
 
 }

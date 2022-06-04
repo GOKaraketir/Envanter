@@ -30,9 +30,9 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="updateProductButton">
        <property name="text">
-        <string>PushButton</string>
+        <string>Ürün Güncelle</string>
        </property>
       </widget>
      </item>

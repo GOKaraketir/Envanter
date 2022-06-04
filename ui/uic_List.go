@@ -15,7 +15,7 @@ type List struct {
 	HorizontalLayout     *widgets.QHBoxLayout
 	TableWidget          *widgets.QTableWidget
 	VerticalLayout       *widgets.QVBoxLayout
-	PushButton           *widgets.QPushButton
+	UpdateProductButton  *widgets.QPushButton
 	PushButton_2         *widgets.QPushButton
 	DeleteProductButtton *widgets.QPushButton
 }
@@ -45,9 +45,9 @@ func (w *List) setupUI() {
 	w.HorizontalLayout.QLayout.AddWidget(w.TableWidget)
 	w.VerticalLayout = widgets.NewQVBoxLayout()
 	w.VerticalLayout.SetObjectName("verticalLayout")
-	w.PushButton = widgets.NewQPushButton(w)
-	w.PushButton.SetObjectName("pushButton")
-	w.VerticalLayout.QLayout.AddWidget(w.PushButton)
+	w.UpdateProductButton = widgets.NewQPushButton(w)
+	w.UpdateProductButton.SetObjectName("updateProductButton")
+	w.VerticalLayout.QLayout.AddWidget(w.UpdateProductButton)
 	w.PushButton_2 = widgets.NewQPushButton(w)
 	w.PushButton_2.SetObjectName("pushButton_2")
 	w.VerticalLayout.QLayout.AddWidget(w.PushButton_2)
@@ -61,7 +61,7 @@ func (w *List) setupUI() {
 }
 func (w *List) retranslateUi() {
 	w.SetWindowTitle(core.QCoreApplication_Translate("List", "Form", "", 0))
-	w.PushButton.SetText(core.QCoreApplication_Translate("List", "PushButton", "", 0))
+	w.UpdateProductButton.SetText(core.QCoreApplication_Translate("List", "\303\234r\303\274n G\303\274ncelle", "", 0))
 	w.PushButton_2.SetText(core.QCoreApplication_Translate("List", "PushButton", "", 0))
 	w.DeleteProductButtton.SetText(core.QCoreApplication_Translate("List", "\303\234r\303\274n Sil", "", 0))
 

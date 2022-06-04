@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/GOKaraketir/Envanter/backend"
 	"github.com/GOKaraketir/Envanter/ui"
+	"github.com/therecipe/qt/gui"
 	"github.com/therecipe/qt/widgets"
 )
 
@@ -13,7 +14,7 @@ func addRow(table *widgets.QTableWidget) {
 
 const (
 	ID_COL = iota
-	BORCODE_COL
+	BARCODE_COL
 	NAME_COL
 	PRICE_COL
 	COUNT_COL
@@ -51,7 +52,7 @@ func setLabels(table *widgets.QTableWidget) {
 	}
 }
 
-func refreshProductLıst(table *widgets.QTableWidget) {
+func refreshProductList(table *widgets.QTableWidget) {
 	table.SetRowCount(0)
 	products := Inventory.GetAllProducts()
 	for row, product := range products {
@@ -68,7 +69,7 @@ func CreateList(p widgets.QWidget_ITF) *ui.List {
 
 	setLabels(listView.TableWidget)
 
-	refreshProductLıst(listView.TableWidget)
+	refreshProductList(listView.TableWidget)
 
 	listView.DeleteProductButtton.ConnectClicked(func(checked bool) {
 		rows := listView.TableWidget.SelectionModel().SelectedRows(0)
@@ -78,7 +79,7 @@ func CreateList(p widgets.QWidget_ITF) *ui.List {
 		} else {
 			for _, rowItem := range rows {
 				row := rowItem.Row()
-				barcode := listView.TableWidget.Item(row, BORCODE_COL).Text()
+				barcode := listView.TableWidget.Item(row, BARCODE_COL).Text()
 				name := listView.TableWidget.Item(row, NAME_COL).Text()
 				_, err = Inventory.DeleteProduct(backend.Tag{
 					Barcode: barcode,
@@ -90,7 +91,34 @@ func CreateList(p widgets.QWidget_ITF) *ui.List {
 					ShowInfo("Ürün Silindi", barcode+" "+name)
 				}
 			}
-			refreshProductLıst(listView.TableWidget)
+			refreshProductList(listView.TableWidget)
+		}
+	})
+
+	listView.UpdateProductButton.ConnectClicked(func(checked bool) {
+		rows := listView.TableWidget.SelectionModel().SelectedRows(0)
+		if len(rows) == 0 {
+			ShowInfo("Hata", "Seçili Ürün Yok")
+			return
+		} else if len(rows) > 1 {
+			ShowInfo("Hata", "Birden Fazla Ürün Seçili, güncellemek için bir ürün seçin")
+			return
+		} else {
+			rowItem := rows[0]
+			row := rowItem.Row()
+			barcode := listView.TableWidget.Item(row, BARCODE_COL).Text()
+			name := listView.TableWidget.Item(row, NAME_COL).Text()
+
+			updateView := CreateUpdateProduct(backend.Tag{
+				Barcode: barcode,
+				Name:    name,
+			}, nil)
+
+			updateView.Show()
+
+			updateView.ConnectCloseEvent(func(event *gui.QCloseEvent) {
+				refreshProductList(listView.TableWidget)
+			})
 		}
 	})
 

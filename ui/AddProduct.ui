@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Ürün Ekle</string>
+   <string>qqq</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -239,7 +239,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Ürün Ekle</string>
+        <string>qqq</string>
        </property>
       </widget>
      </item>
