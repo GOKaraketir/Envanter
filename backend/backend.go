@@ -2,7 +2,6 @@ package backend
 
 import (
 	"errors"
-	"fmt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -16,10 +15,6 @@ const (
 	ERR_SELL_ENTRY_NOT_FOUND              = "Satış Girdisi Bulunamadı"
 	NO_BARCODE                            = "0000000000000"
 )
-
-func Hello() {
-	fmt.Println("Hello")
-}
 
 func Initialize(fileName string) (inventory Inventory, err error) {
 	db, err := gorm.Open(sqlite.Open(fileName), &gorm.Config{})
@@ -178,6 +173,11 @@ func (receiver *ProductList) GetAllNames() (nameList []string) {
 	return
 }
 
-func RemoveIndex[T any](s []T, index int) []T {
+func RemoveIndexWithOrder[T any](s []T, index int) []T {
 	return append(s[:index], s[index+1:]...)
+}
+
+func RemoveIndexWithoutOrder[T any](s []T, index int) []T {
+	s[index] = s[len(s)-1]
+	return s[:len(s)-1]
 }
