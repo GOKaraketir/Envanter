@@ -61,8 +61,8 @@ func (receiver *SellEntry) UpdateCount(newCount int) {
 	receiver.Count = newCount
 }
 
-func NewSell() Sell {
-	return Sell{
+func NewSell() *Sell {
+	return &Sell{
 		Date: myDate.FromTime(time.Now()),
 	}
 }

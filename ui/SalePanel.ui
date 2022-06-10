@@ -144,7 +144,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="commitSalePushButton">
        <property name="text">
         <string>Satış</string>
        </property>
@@ -164,7 +164,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="cancelPushButton">
        <property name="text">
         <string>İptal Et</string>
        </property>

@@ -31,9 +31,9 @@ type SalePanel struct {
 	TotalPiceLineEdit        *widgets.QLineEdit
 	TableWidget              *widgets.QTableWidget
 	HorizontalLayout_3       *widgets.QHBoxLayout
-	PushButton_2             *widgets.QPushButton
+	CommitSalePushButton     *widgets.QPushButton
 	HorizontalSpacer         *widgets.QSpacerItem
-	PushButton_3             *widgets.QPushButton
+	CancelPushButton         *widgets.QPushButton
 }
 
 func NewSalePanel(p widgets.QWidget_ITF) *SalePanel {
@@ -111,14 +111,14 @@ func (w *SalePanel) setupUI() {
 	w.VerticalLayout_2.AddLayout(w.HorizontalLayout_5, 0)
 	w.HorizontalLayout_3 = widgets.NewQHBoxLayout()
 	w.HorizontalLayout_3.SetObjectName("horizontalLayout_3")
-	w.PushButton_2 = widgets.NewQPushButton(w)
-	w.PushButton_2.SetObjectName("pushButton_2")
-	w.HorizontalLayout_3.QLayout.AddWidget(w.PushButton_2)
+	w.CommitSalePushButton = widgets.NewQPushButton(w)
+	w.CommitSalePushButton.SetObjectName("commitSalePushButton")
+	w.HorizontalLayout_3.QLayout.AddWidget(w.CommitSalePushButton)
 	w.HorizontalSpacer = widgets.NewQSpacerItem(40, 20, widgets.QSizePolicy__Expanding, widgets.QSizePolicy__Minimum)
 	w.HorizontalLayout_3.AddItem(w.HorizontalSpacer)
-	w.PushButton_3 = widgets.NewQPushButton(w)
-	w.PushButton_3.SetObjectName("pushButton_3")
-	w.HorizontalLayout_3.QLayout.AddWidget(w.PushButton_3)
+	w.CancelPushButton = widgets.NewQPushButton(w)
+	w.CancelPushButton.SetObjectName("cancelPushButton")
+	w.HorizontalLayout_3.QLayout.AddWidget(w.CancelPushButton)
 	w.VerticalLayout_2.AddLayout(w.HorizontalLayout_3, 0)
 	w.retranslateUi()
 	core.QMetaObject_ConnectSlotsByName(w)
@@ -131,7 +131,7 @@ func (w *SalePanel) retranslateUi() {
 	w.AddPushButton.SetText(core.QCoreApplication_Translate("SalePanel", "Ekle", "", 0))
 	w.RemoveSelectedPushButton.SetText(core.QCoreApplication_Translate("SalePanel", "Se\303\247ili \303\234r\303\274n\303\274 \303\207\304\261kar", "", 0))
 	w.Label_3.SetText(core.QCoreApplication_Translate("SalePanel", "Toplam Fiyat: ", "", 0))
-	w.PushButton_2.SetText(core.QCoreApplication_Translate("SalePanel", "Sat\304\261\305\237", "", 0))
-	w.PushButton_3.SetText(core.QCoreApplication_Translate("SalePanel", "\304\260ptal Et", "", 0))
+	w.CommitSalePushButton.SetText(core.QCoreApplication_Translate("SalePanel", "Sat\304\261\305\237", "", 0))
+	w.CancelPushButton.SetText(core.QCoreApplication_Translate("SalePanel", "\304\260ptal Et", "", 0))
 
 }

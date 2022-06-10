@@ -96,7 +96,7 @@ func CreateSale(itf widgets.QWidget_ITF) unsafe.Pointer {
 		product := products[index-1]
 
 		sell.AddSellEntry(backend.CreateSellEntry(product, sale.CountSpinBox.Value()))
-		refreshSaleList(table, &sell, sale.TotalPiceLineEdit)
+		refreshSaleList(table, sell, sale.TotalPiceLineEdit)
 
 		sale.CountSpinBox.SetValue(1)
 	})
@@ -111,7 +111,22 @@ func CreateSale(itf widgets.QWidget_ITF) unsafe.Pointer {
 		row := rows[0].Row()
 
 		sell.Entries = backend.RemoveIndexWithOrder(sell.Entries, row)
-		refreshSaleList(table, &sell, sale.TotalPiceLineEdit)
+		refreshSaleList(table, sell, sale.TotalPiceLineEdit)
+	})
+
+	sale.CommitSalePushButton.ConnectClicked(func(checked bool) {
+		err := Inventory.CommitSell(sell)
+		if err != nil {
+			ShowInfo("HATA", err.Error())
+			return
+		} else {
+			sale.Close()
+		}
+
+	})
+
+	sale.CancelPushButton.ConnectClicked(func(checked bool) {
+		sale.Close()
 	})
 
 	return sale.Pointer()
