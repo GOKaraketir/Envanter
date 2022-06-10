@@ -6,28 +6,29 @@ import (
 	"github.com/GOKaraketir/Envanter/ui"
 	"github.com/therecipe/qt/gui"
 	"github.com/therecipe/qt/widgets"
+	"unsafe"
 )
 
-func addRow(table *widgets.QTableWidget) {
+func AddRow(table *widgets.QTableWidget) {
 	table.InsertRow(table.RowCount())
 }
 
 const (
-	ID_COL = iota
-	BARCODE_COL
-	NAME_COL
-	PRICE_COL
-	COUNT_COL
+	LIST_ID_COL = iota
+	LIST_BARCODE_COL
+	LIST_NAME_COL
+	LIST_PRICE_COL
+	LIST_COUNT_COL
 )
 
-var colNames = []string{
+var listColnames = []string{
 	"ID",
 	"Barkod",
 	"Ürün Adı",
 	"Fiyat",
 	"Stok Adedi",
 }
-var colWidths = []int{
+var listColWidths = []int{
 	50,  //ID
 	125, //Barkod
 	300, //Urun Adi
@@ -35,7 +36,7 @@ var colWidths = []int{
 	75,  //Stok Adedi
 }
 
-func createRow(product backend.Product) (items []*widgets.QTableWidgetItem) {
+func listCreateRow(product backend.Product) (items []*widgets.QTableWidgetItem) {
 	items = append(items, widgets.NewQTableWidgetItem2(fmt.Sprint(product.ID), 0))
 	items = append(items, widgets.NewQTableWidgetItem2(fmt.Sprint(product.Barcode), 0))
 	items = append(items, widgets.NewQTableWidgetItem2(fmt.Sprint(product.Name), 0))
@@ -44,11 +45,11 @@ func createRow(product backend.Product) (items []*widgets.QTableWidgetItem) {
 	return
 }
 
-func setLabels(table *widgets.QTableWidget) {
-	for i, name := range colNames {
+func SetLabels(table *widgets.QTableWidget, colN []string, colW []int) {
+	for i, name := range colN {
 		table.InsertColumn(i)
 		table.SetHorizontalHeaderItem(i, widgets.NewQTableWidgetItem2(name, 0))
-		table.SetColumnWidth(i, colWidths[i])
+		table.SetColumnWidth(i, colW[i])
 	}
 }
 
@@ -56,18 +57,18 @@ func refreshProductList(table *widgets.QTableWidget) {
 	table.SetRowCount(0)
 	products := Inventory.GetAllProducts()
 	for row, product := range products {
-		addRow(table)
-		rowElem := createRow(product)
+		AddRow(table)
+		rowElem := listCreateRow(product)
 		for col, item := range rowElem {
 			table.SetItem(row, col, item)
 		}
 	}
 }
 
-func CreateList(p widgets.QWidget_ITF) *ui.List {
+func CreateList(p widgets.QWidget_ITF) unsafe.Pointer {
 	listView := ui.NewList(p)
 
-	setLabels(listView.TableWidget)
+	SetLabels(listView.TableWidget, listColnames, listColWidths)
 
 	refreshProductList(listView.TableWidget)
 
@@ -79,8 +80,8 @@ func CreateList(p widgets.QWidget_ITF) *ui.List {
 		} else {
 			for _, rowItem := range rows {
 				row := rowItem.Row()
-				barcode := listView.TableWidget.Item(row, BARCODE_COL).Text()
-				name := listView.TableWidget.Item(row, NAME_COL).Text()
+				barcode := listView.TableWidget.Item(row, LIST_BARCODE_COL).Text()
+				name := listView.TableWidget.Item(row, LIST_NAME_COL).Text()
 				_, err = Inventory.DeleteProduct(backend.Tag{
 					Barcode: barcode,
 					Name:    name,
@@ -106,13 +107,14 @@ func CreateList(p widgets.QWidget_ITF) *ui.List {
 		} else {
 			rowItem := rows[0]
 			row := rowItem.Row()
-			barcode := listView.TableWidget.Item(row, BARCODE_COL).Text()
-			name := listView.TableWidget.Item(row, NAME_COL).Text()
+			barcode := listView.TableWidget.Item(row, LIST_BARCODE_COL).Text()
+			name := listView.TableWidget.Item(row, LIST_NAME_COL).Text()
 
-			updateView := CreateUpdateProduct(backend.Tag{
+			updateView := widgets.QWidget{}
+			updateView.SetPointer(CreateUpdateProduct(backend.Tag{
 				Barcode: barcode,
 				Name:    name,
-			}, nil)
+			}, nil))
 
 			updateView.Show()
 
@@ -122,5 +124,5 @@ func CreateList(p widgets.QWidget_ITF) *ui.List {
 		}
 	})
 
-	return listView
+	return listView.Pointer()
 }

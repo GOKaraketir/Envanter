@@ -56,32 +56,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="removeProductPushButton">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Ürün Sil</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="editProductPushButton">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Ürün Düzenle</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="listProducts">
        <property name="minimumSize">
         <size>

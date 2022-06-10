@@ -23,6 +23,8 @@ type Product struct {
 	Stock   *Stock
 }
 
+type ProductList []Product
+
 type Stock struct {
 	ID        int
 	ProductID int

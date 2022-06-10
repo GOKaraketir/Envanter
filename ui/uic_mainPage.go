@@ -12,15 +12,13 @@ func (*__mainpage) init() {}
 type MainPage struct {
 	*__mainpage
 	*widgets.QWidget
-	VerticalLayout          *widgets.QVBoxLayout
-	VerticalSpacer          *widgets.QSpacerItem
-	HorizontalLayout        *widgets.QHBoxLayout
-	SalePanelPushButton     *widgets.QPushButton
-	AddProductPushButton    *widgets.QPushButton
-	RemoveProductPushButton *widgets.QPushButton
-	EditProductPushButton   *widgets.QPushButton
-	ListProducts            *widgets.QPushButton
-	PushButton_5            *widgets.QPushButton
+	VerticalLayout       *widgets.QVBoxLayout
+	VerticalSpacer       *widgets.QSpacerItem
+	HorizontalLayout     *widgets.QHBoxLayout
+	SalePanelPushButton  *widgets.QPushButton
+	AddProductPushButton *widgets.QPushButton
+	ListProducts         *widgets.QPushButton
+	PushButton_5         *widgets.QPushButton
 }
 
 func NewMainPage(p widgets.QWidget_ITF) *MainPage {
@@ -52,14 +50,6 @@ func (w *MainPage) setupUI() {
 	w.AddProductPushButton.SetObjectName("addProductPushButton")
 	w.AddProductPushButton.SetMinimumSize(core.NewQSize2(150, 75))
 	w.HorizontalLayout.QLayout.AddWidget(w.AddProductPushButton)
-	w.RemoveProductPushButton = widgets.NewQPushButton(w)
-	w.RemoveProductPushButton.SetObjectName("removeProductPushButton")
-	w.RemoveProductPushButton.SetMinimumSize(core.NewQSize2(150, 75))
-	w.HorizontalLayout.QLayout.AddWidget(w.RemoveProductPushButton)
-	w.EditProductPushButton = widgets.NewQPushButton(w)
-	w.EditProductPushButton.SetObjectName("editProductPushButton")
-	w.EditProductPushButton.SetMinimumSize(core.NewQSize2(150, 75))
-	w.HorizontalLayout.QLayout.AddWidget(w.EditProductPushButton)
 	w.ListProducts = widgets.NewQPushButton(w)
 	w.ListProducts.SetObjectName("listProducts")
 	w.ListProducts.SetMinimumSize(core.NewQSize2(150, 75))
@@ -77,8 +67,6 @@ func (w *MainPage) retranslateUi() {
 	w.SetWindowTitle(core.QCoreApplication_Translate("MainPage", "Form", "", 0))
 	w.SalePanelPushButton.SetText(core.QCoreApplication_Translate("MainPage", "Sat\304\261\305\237 Paneli", "", 0))
 	w.AddProductPushButton.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n Ekle", "", 0))
-	w.RemoveProductPushButton.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n Sil", "", 0))
-	w.EditProductPushButton.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n D\303\274zenle", "", 0))
 	w.ListProducts.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n Listele", "", 0))
 	w.PushButton_5.SetText(core.QCoreApplication_Translate("MainPage", "PushButton", "", 0))
 

@@ -6,6 +6,7 @@ import (
 	"github.com/GOKaraketir/Envanter/ui"
 	"github.com/therecipe/qt/core"
 	"github.com/therecipe/qt/widgets"
+	"unsafe"
 )
 
 func setCheckBoxNoBarcode(addProduct *ui.AddProduct) func(bool) {
@@ -90,15 +91,13 @@ func addOrUpdateFuncGenerator(addProduct *ui.AddProduct, oldProduct *backend.Pro
 	}
 }
 
-func CreateAddProduct(p widgets.QWidget_ITF) *ui.AddProduct {
+func CreateAddProduct(p widgets.QWidget_ITF) unsafe.Pointer {
 	addProduct := ui.NewAddProduct(p)
-
 	addProduct.AddProductButton.ConnectClicked(addOrUpdateFuncGenerator(addProduct, nil))
-
-	return addProduct
+	return addProduct.Pointer()
 }
 
-func CreateUpdateProduct(tag backend.Tag, p widgets.QWidget_ITF) *ui.AddProduct {
+func CreateUpdateProduct(tag backend.Tag, p widgets.QWidget_ITF) unsafe.Pointer {
 	update := ui.NewAddProduct(p)
 
 	product, err := Inventory.GetProduct(tag)
@@ -109,5 +108,5 @@ func CreateUpdateProduct(tag backend.Tag, p widgets.QWidget_ITF) *ui.AddProduct 
 
 	update.AddProductButton.ConnectClicked(addOrUpdateFuncGenerator(update, product))
 
-	return update
+	return update.Pointer()
 }

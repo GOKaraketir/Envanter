@@ -81,6 +81,23 @@ func TestDelete(t *testing.T) {
 
 }
 
+func TestFindWithBarcode(t *testing.T) {
+	inventory := createDB(t)
+
+	product, err := inventory.FindProductWithBarcode("1111111111111")
+	if err != nil {
+		t.Fatal(err)
+	} else if product.Name != "Ürün 1" {
+		t.Fatal("ERRR")
+	}
+
+	_, err = inventory.FindProductWithBarcode("123")
+	if err == nil {
+		t.Fatal("ErEr")
+	}
+
+}
+
 func TestUpdate(t *testing.T) {
 	inventory := createDB(t)
 	var err error

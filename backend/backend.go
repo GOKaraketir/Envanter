@@ -104,7 +104,27 @@ func (receiver *Inventory) GetProduct(tag Tag) (*Product, error) {
 	return &products[0], nil
 }
 
-func (receiver *Inventory) GetAllProducts() (products []Product) {
+func (receiver *Inventory) FindProductWithBarcode(barcode string) (*Product, error) {
+	if len(barcode) == 0 {
+		err := errors.New(ERR_PROD_NOT_FOUND)
+		return nil, err
+	}
+
+	var products []Product
+	receiver.Preload(clause.Associations).Find(&products, Product{
+		Tag: Tag{
+			Barcode: barcode,
+		},
+	})
+	if len(products) == 0 {
+		err := errors.New(ERR_PROD_NOT_FOUND)
+		return nil, err
+	}
+	products[0].Stock.Product = &products[0]
+	return &products[0], nil
+}
+
+func (receiver *Inventory) GetAllProducts() (products ProductList) {
 	receiver.Preload(clause.Associations).Find(&products)
 	return
 }
@@ -149,4 +169,11 @@ func (receiver Inventory) AddToStock(tag Tag, count int) (Stock, error) {
 
 func (receiver Inventory) ReduceFromStock(tag Tag, count int) (Stock, error) {
 	return receiver.AddToStock(tag, -1*count)
+}
+
+func (receiver *ProductList) GetAllNames() (nameList []string) {
+	for _, product := range *receiver {
+		nameList = append(nameList, product.Name)
+	}
+	return
 }

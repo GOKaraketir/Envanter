@@ -40,7 +40,7 @@ func (w *List) setupUI() {
 	w.TableWidget = widgets.NewQTableWidget(w)
 	w.TableWidget.SetObjectName("tableWidget")
 	w.TableWidget.SetEditTriggers(widgets.QAbstractItemView__NoEditTriggers)
-	w.TableWidget.SetSelectionMode(widgets.QAbstractItemView__MultiSelection)
+	w.TableWidget.SetSelectionMode(widgets.QAbstractItemView__ExtendedSelection)
 	w.TableWidget.SetSelectionBehavior(widgets.QAbstractItemView__SelectRows)
 	w.HorizontalLayout.QLayout.AddWidget(w.TableWidget)
 	w.VerticalLayout = widgets.NewQVBoxLayout()
