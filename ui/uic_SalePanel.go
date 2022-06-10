@@ -12,23 +12,28 @@ func (*__salepanel) init() {}
 type SalePanel struct {
 	*__salepanel
 	*widgets.QWidget
-	VerticalLayout_2      *widgets.QVBoxLayout
-	HorizontalLayout_4    *widgets.QHBoxLayout
-	VerticalLayout        *widgets.QVBoxLayout
-	SelectProductComboBox *widgets.QComboBox
-	HorizontalLayout      *widgets.QHBoxLayout
-	Label                 *widgets.QLabel
-	BarcodeLineEdit       *widgets.QLineEdit
-	HorizontalLayout_2    *widgets.QHBoxLayout
-	Label_2               *widgets.QLabel
-	CountSpinBox          *widgets.QSpinBox
-	AddPushButton         *widgets.QPushButton
-	VerticalSpacer        *widgets.QSpacerItem
-	TableWidget           *widgets.QTableWidget
-	HorizontalLayout_3    *widgets.QHBoxLayout
-	PushButton_2          *widgets.QPushButton
-	HorizontalSpacer      *widgets.QSpacerItem
-	PushButton_3          *widgets.QPushButton
+	VerticalLayout_2         *widgets.QVBoxLayout
+	HorizontalLayout_5       *widgets.QHBoxLayout
+	VerticalLayout           *widgets.QVBoxLayout
+	SelectProductComboBox    *widgets.QComboBox
+	HorizontalLayout         *widgets.QHBoxLayout
+	Label                    *widgets.QLabel
+	BarcodeLineEdit          *widgets.QLineEdit
+	HorizontalLayout_2       *widgets.QHBoxLayout
+	Label_2                  *widgets.QLabel
+	CountSpinBox             *widgets.QSpinBox
+	AddPushButton            *widgets.QPushButton
+	VerticalSpacer_2         *widgets.QSpacerItem
+	RemoveSelectedPushButton *widgets.QPushButton
+	VerticalSpacer           *widgets.QSpacerItem
+	HorizontalLayout_4       *widgets.QHBoxLayout
+	Label_3                  *widgets.QLabel
+	TotalPiceLineEdit        *widgets.QLineEdit
+	TableWidget              *widgets.QTableWidget
+	HorizontalLayout_3       *widgets.QHBoxLayout
+	PushButton_2             *widgets.QPushButton
+	HorizontalSpacer         *widgets.QSpacerItem
+	PushButton_3             *widgets.QPushButton
 }
 
 func NewSalePanel(p widgets.QWidget_ITF) *SalePanel {
@@ -48,11 +53,10 @@ func (w *SalePanel) setupUI() {
 	w.Resize2(1200, 429)
 	w.VerticalLayout_2 = widgets.NewQVBoxLayout2(w)
 	w.VerticalLayout_2.SetObjectName("verticalLayout_2")
-	w.HorizontalLayout_4 = widgets.NewQHBoxLayout()
-	w.HorizontalLayout_4.SetObjectName("horizontalLayout_4")
+	w.HorizontalLayout_5 = widgets.NewQHBoxLayout()
+	w.HorizontalLayout_5.SetObjectName("horizontalLayout_5")
 	w.VerticalLayout = widgets.NewQVBoxLayout()
 	w.VerticalLayout.SetObjectName("verticalLayout")
-	w.VerticalLayout.SetSizeConstraint(widgets.QLayout__SetMaximumSize)
 	w.SelectProductComboBox = widgets.NewQComboBox(w)
 	w.SelectProductComboBox.SetObjectName("selectProductComboBox")
 	w.SelectProductComboBox.SetMaximumSize(core.NewQSize2(16777215, 16777215))
@@ -80,14 +84,31 @@ func (w *SalePanel) setupUI() {
 	w.AddPushButton = widgets.NewQPushButton(w)
 	w.AddPushButton.SetObjectName("AddPushButton")
 	w.VerticalLayout.QLayout.AddWidget(w.AddPushButton)
+	w.VerticalSpacer_2 = widgets.NewQSpacerItem(20, 40, widgets.QSizePolicy__Minimum, widgets.QSizePolicy__Expanding)
+	w.VerticalLayout.AddItem(w.VerticalSpacer_2)
+	w.RemoveSelectedPushButton = widgets.NewQPushButton(w)
+	w.RemoveSelectedPushButton.SetObjectName("removeSelectedPushButton")
+	w.VerticalLayout.QLayout.AddWidget(w.RemoveSelectedPushButton)
 	w.VerticalSpacer = widgets.NewQSpacerItem(20, 40, widgets.QSizePolicy__Minimum, widgets.QSizePolicy__Expanding)
 	w.VerticalLayout.AddItem(w.VerticalSpacer)
-	w.HorizontalLayout_4.AddLayout(w.VerticalLayout, 0)
+	w.HorizontalLayout_4 = widgets.NewQHBoxLayout()
+	w.HorizontalLayout_4.SetObjectName("horizontalLayout_4")
+	w.Label_3 = widgets.NewQLabel(w, 0)
+	w.Label_3.SetObjectName("label_3")
+	w.HorizontalLayout_4.QLayout.AddWidget(w.Label_3)
+	w.TotalPiceLineEdit = widgets.NewQLineEdit(w)
+	w.TotalPiceLineEdit.SetObjectName("totalPiceLineEdit")
+	w.TotalPiceLineEdit.SetReadOnly(true)
+	w.HorizontalLayout_4.QLayout.AddWidget(w.TotalPiceLineEdit)
+	w.VerticalLayout.AddLayout(w.HorizontalLayout_4, 0)
+	w.HorizontalLayout_5.AddLayout(w.VerticalLayout, 0)
 	w.TableWidget = widgets.NewQTableWidget(w)
 	w.TableWidget.SetObjectName("tableWidget")
 	w.TableWidget.SetMinimumSize(core.NewQSize2(750, 0))
-	w.HorizontalLayout_4.QLayout.AddWidget(w.TableWidget)
-	w.VerticalLayout_2.AddLayout(w.HorizontalLayout_4, 0)
+	w.TableWidget.SetSelectionMode(widgets.QAbstractItemView__SingleSelection)
+	w.TableWidget.SetSelectionBehavior(widgets.QAbstractItemView__SelectRows)
+	w.HorizontalLayout_5.QLayout.AddWidget(w.TableWidget)
+	w.VerticalLayout_2.AddLayout(w.HorizontalLayout_5, 0)
 	w.HorizontalLayout_3 = widgets.NewQHBoxLayout()
 	w.HorizontalLayout_3.SetObjectName("horizontalLayout_3")
 	w.PushButton_2 = widgets.NewQPushButton(w)
@@ -108,6 +129,8 @@ func (w *SalePanel) retranslateUi() {
 	w.Label.SetText(core.QCoreApplication_Translate("SalePanel", "Barkod", "", 0))
 	w.Label_2.SetText(core.QCoreApplication_Translate("SalePanel", "Adet", "", 0))
 	w.AddPushButton.SetText(core.QCoreApplication_Translate("SalePanel", "Ekle", "", 0))
+	w.RemoveSelectedPushButton.SetText(core.QCoreApplication_Translate("SalePanel", "Se\303\247ili \303\234r\303\274n\303\274 \303\207\304\261kar", "", 0))
+	w.Label_3.SetText(core.QCoreApplication_Translate("SalePanel", "Toplam Fiyat: ", "", 0))
 	w.PushButton_2.SetText(core.QCoreApplication_Translate("SalePanel", "Sat\304\261\305\237", "", 0))
 	w.PushButton_3.SetText(core.QCoreApplication_Translate("SalePanel", "\304\260ptal Et", "", 0))
 

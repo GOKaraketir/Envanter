@@ -87,13 +87,28 @@ func CreateSale(itf widgets.QWidget_ITF) unsafe.Pointer {
 		product := products[index-1]
 
 		sell.AddSellEntry(backend.CreateSellEntry(product, sale.CountSpinBox.Value()))
-		refreshSaleList(table, &sell)
+		refreshSaleList(table, &sell, sale.TotalPiceLineEdit)
+
+		sale.CountSpinBox.SetValue(1)
+	})
+
+	sale.RemoveSelectedPushButton.ConnectClicked(func(checked bool) {
+		rows := table.SelectionModel().SelectedRows(0)
+		if len(rows) == 0 {
+			ShowInfo("HATA", "Seçili Ürün Yok")
+			return
+		}
+
+		row := rows[0].Row()
+
+		sell.Entries = backend.RemoveIndex(sell.Entries, row)
+		refreshSaleList(table, &sell, sale.TotalPiceLineEdit)
 	})
 
 	return sale.Pointer()
 }
 
-func refreshSaleList(table *widgets.QTableWidget, sell *backend.Sell) {
+func refreshSaleList(table *widgets.QTableWidget, sell *backend.Sell, totalPriceWidget *widgets.QLineEdit) {
 	table.SetRowCount(0)
 
 	for row, entry := range sell.Entries {
@@ -103,6 +118,9 @@ func refreshSaleList(table *widgets.QTableWidget, sell *backend.Sell) {
 			table.SetItem(row, col, item)
 		}
 	}
+
+	sum := sell.Sum()
+	totalPriceWidget.SetText(fmt.Sprintf("%.2f₺", sum))
 }
 
 const (
