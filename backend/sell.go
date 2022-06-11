@@ -2,7 +2,6 @@ package backend
 
 import (
 	"errors"
-	"github.com/GOKaraketir/Envanter/backend/myDate"
 	"gorm.io/gorm/clause"
 	"time"
 )
@@ -33,7 +32,8 @@ func (receiver *Inventory) CommitSell(sell *Sell) (err error) {
 			return err
 		}
 	}
-	receiver.Save(sell)
+	sell.Time = time.Now()
+	receiver.Create(sell)
 	return nil
 }
 
@@ -62,9 +62,7 @@ func (receiver *SellEntry) UpdateCount(newCount int) {
 }
 
 func NewSell() *Sell {
-	return &Sell{
-		Date: myDate.FromTime(time.Now()),
-	}
+	return &Sell{}
 }
 
 func CreateSellEntry(product Product, count int) SellEntry {
@@ -84,6 +82,12 @@ func (receiver *Inventory) GetSell(ID int) (*Sell, error) {
 	}
 
 	return &sells[0], nil
+}
+
+func (receiver *Inventory) GetAllSells() []Sell {
+	var sells []Sell
+	receiver.Preload(clause.Associations).Find(&sells)
+	return sells
 }
 
 func (receiver *Sell) GetSellEntry(tag Tag) (*SellEntry, error) {

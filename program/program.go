@@ -20,18 +20,22 @@ func Run() {
 	if err != nil {
 		file = path.Join(dir, DBNAME)
 	} else {
-		file = path.Join(os.TempDir(), DBNAME)
+		getwd, err := os.Getwd()
+		if err != nil {
+			return
+		}
+		file = path.Join(getwd, DBNAME)
 	}
 
 	Inventory, err = backend.Initialize(file)
-
-	if err != nil {
-		ShowInfo("Hata", err.Error())
-	}
-
 	productWindow := CreateMainPage(nil)
 
-	productWindow.Show()
+	if err != nil {
+		ShowInfo("Hata", err.Error()+"File: "+file)
+	} else {
+		productWindow.Show()
+		ShowInfo("Database Connected", "File: "+file)
+	}
 
 	widgets.QApplication_Exec()
 }

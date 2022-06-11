@@ -25,6 +25,7 @@ func CreateMainPage(p widgets.QWidget_ITF) *ui.MainPage {
 	buttonConnectorWithDisable(mainPage.AddProductPushButton, CreateAddProduct)
 	buttonConnectorWithDisable(mainPage.ListProducts, CreateList)
 	buttonConnectorWithDisable(mainPage.SalePanelPushButton, CreateSale)
+	buttonConnectorWithDisable(mainPage.SalesListPushButton, CreateSalesList)
 
 	return mainPage
 }

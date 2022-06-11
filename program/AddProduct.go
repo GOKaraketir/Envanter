@@ -66,16 +66,21 @@ func addOrUpdateFuncGenerator(addProduct *ui.AddProduct, oldProduct *backend.Pro
 
 		if oldProduct != nil {
 			copyOld := *oldProduct
-			copyOld.Stock.Count = addProduct.CountSpinBox.Value()
 			copyOld.Name = addProduct.NameLineEdit.Text()
 			copyOld.Barcode = barcode
 			copyOld.Price = backend.Price(addProduct.PriceDoubleSpinBox.Value())
 			_, err := Inventory.UpdateProduct(oldProduct.Tag, copyOld)
 			if err != nil {
 				ShowInfo("Hata", err.Error())
-			} else {
-				addProduct.Close()
+				return
 			}
+			_, err = Inventory.UpdateStock(oldProduct.Tag, addProduct.CountSpinBox.Value())
+			if err != nil {
+				ShowInfo("Hata", err.Error())
+				return
+			}
+			addProduct.Close()
+
 		} else {
 			_, err := Inventory.CreateProduct(backend.Tag{
 				Barcode: barcode,

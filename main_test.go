@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/GOKaraketir/Envanter/backend"
 	"os"
 	"testing"
@@ -123,5 +124,14 @@ func TestUpdate(t *testing.T) {
 	_, err = inventory.UpdateStock(newPro.Tag, 444)
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	stock, err := inventory.GetStock(newPro.Tag)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(stock)
+	if stock.Count != 444 {
+		t.Fatal("Not Updated Stock")
 	}
 }

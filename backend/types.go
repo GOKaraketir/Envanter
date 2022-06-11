@@ -1,8 +1,8 @@
 package backend
 
 import (
-	"github.com/GOKaraketir/Envanter/backend/myDate"
 	"gorm.io/gorm"
+	"time"
 )
 
 type Inventory struct {
@@ -41,7 +41,7 @@ type SellEntry struct {
 }
 
 type Sell struct {
-	ID      int           `gorm:"PrimaryKey"`
-	Date    myDate.MyDate `gorm:"embedded"`
+	ID      int `gorm:"PrimaryKey"`
+	Time    time.Time
 	Entries []SellEntry
 }

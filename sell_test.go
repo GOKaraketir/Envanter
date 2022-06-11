@@ -14,7 +14,7 @@ func TestSell(t *testing.T) {
 	aSell.AddSellEntry(backend.CreateSellEntry(testProductToProduct(testProducts[0]), 5))
 	bSell.AddSellEntry(backend.CreateSellEntry(testProductToProduct(testProducts[0]), 5))
 
-	err := inventory.CommitSell(&aSell)
+	err := inventory.CommitSell(aSell)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -27,7 +27,7 @@ func TestSell(t *testing.T) {
 		t.Fatal(stock.Product.Stock)
 	}
 
-	err = inventory.CommitSell(&bSell)
+	err = inventory.CommitSell(bSell)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -96,7 +96,7 @@ func TestSellEntryUpdate(t *testing.T) {
 
 	entry.UpdateCount(6)
 
-	err = inventory.CommitSell(&aSell)
+	err = inventory.CommitSell(aSell)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -110,7 +110,7 @@ func TestSellEntryUpdate(t *testing.T) {
 	}
 
 	aSell.ID++
-	err = inventory.CommitSell(&aSell)
+	err = inventory.CommitSell(aSell)
 	if err != nil {
 		t.Fatal(err)
 	}

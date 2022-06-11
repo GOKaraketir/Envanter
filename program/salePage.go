@@ -65,6 +65,17 @@ func CreateSale(itf widgets.QWidget_ITF) unsafe.Pointer {
 	}
 
 	sale.BarcodeLineEdit.ConnectTextChanged(func(text string) {
+
+	})
+
+	sale.SelectProductComboBox.ConnectCurrentIndexChanged(func(index int) {
+		if index != 0 {
+			sale.BarcodeLineEdit.SetText(products[index-1].Barcode)
+		}
+	})
+
+	sale.BarcodeLineEdit.ConnectReturnPressed(func() {
+		text := sale.BarcodeLineEdit.Text()
 		product, err := Inventory.FindProductWithBarcode(text)
 		if err != nil {
 			sale.SelectProductComboBox.SetCurrentIndex(0)
@@ -76,14 +87,6 @@ func CreateSale(itf widgets.QWidget_ITF) unsafe.Pointer {
 			} else {
 				sale.SelectProductComboBox.SetCurrentIndex(index + 1)
 			}
-		}
-	})
-
-	sale.SelectProductComboBox.ConnectCurrentIndexChanged(func(index int) {
-		if index == 0 {
-			sale.BarcodeLineEdit.SetText("")
-		} else {
-			sale.BarcodeLineEdit.SetText(products[index-1].Barcode)
 		}
 	})
 

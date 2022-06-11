@@ -18,7 +18,7 @@ type MainPage struct {
 	SalePanelPushButton  *widgets.QPushButton
 	AddProductPushButton *widgets.QPushButton
 	ListProducts         *widgets.QPushButton
-	PushButton_5         *widgets.QPushButton
+	SalesListPushButton  *widgets.QPushButton
 }
 
 func NewMainPage(p widgets.QWidget_ITF) *MainPage {
@@ -54,10 +54,10 @@ func (w *MainPage) setupUI() {
 	w.ListProducts.SetObjectName("listProducts")
 	w.ListProducts.SetMinimumSize(core.NewQSize2(150, 75))
 	w.HorizontalLayout.QLayout.AddWidget(w.ListProducts)
-	w.PushButton_5 = widgets.NewQPushButton(w)
-	w.PushButton_5.SetObjectName("pushButton_5")
-	w.PushButton_5.SetMinimumSize(core.NewQSize2(150, 75))
-	w.HorizontalLayout.QLayout.AddWidget(w.PushButton_5)
+	w.SalesListPushButton = widgets.NewQPushButton(w)
+	w.SalesListPushButton.SetObjectName("salesListPushButton")
+	w.SalesListPushButton.SetMinimumSize(core.NewQSize2(150, 75))
+	w.HorizontalLayout.QLayout.AddWidget(w.SalesListPushButton)
 	w.VerticalLayout.AddLayout(w.HorizontalLayout, 0)
 	w.retranslateUi()
 	core.QMetaObject_ConnectSlotsByName(w)
@@ -68,6 +68,6 @@ func (w *MainPage) retranslateUi() {
 	w.SalePanelPushButton.SetText(core.QCoreApplication_Translate("MainPage", "Sat\304\261\305\237 Paneli", "", 0))
 	w.AddProductPushButton.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n Ekle", "", 0))
 	w.ListProducts.SetText(core.QCoreApplication_Translate("MainPage", "\303\234r\303\274n Listele", "", 0))
-	w.PushButton_5.SetText(core.QCoreApplication_Translate("MainPage", "PushButton", "", 0))
+	w.SalesListPushButton.SetText(core.QCoreApplication_Translate("MainPage", "Ge\303\247mi\305\237 Sat\304\261\305\237lar", "", 0))
 
 }
