@@ -15,17 +15,13 @@ const DBNAME = "invetoryDatabase.db"
 func Run() {
 	widgets.NewQApplication(len(os.Args), os.Args)
 
-	var dir, file string
-	dir, err = os.UserHomeDir()
+	var file string
+
+	getwd, err := os.Getwd()
 	if err != nil {
-		file = path.Join(dir, DBNAME)
-	} else {
-		getwd, err := os.Getwd()
-		if err != nil {
-			return
-		}
-		file = path.Join(getwd, DBNAME)
+		return
 	}
+	file = path.Join(getwd, DBNAME)
 
 	Inventory, err = backend.Initialize(file)
 	productWindow := CreateMainPage(nil)
